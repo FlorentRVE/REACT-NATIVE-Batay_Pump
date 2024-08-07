@@ -1,70 +1,206 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Pressable,
+  Animated,
+  ScrollView,
+} from "react-native";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function demo() {
+  const [card, onChangeCard] = useState(`../../assets/images/card/ace.png`);
+  const cardList = [
+    "two",
+    "three",
+    "five",
+    "six",
+    "eight",
+    "ten",
+    "queen",
+    "king",
+    "jack",
+    "ace",
+    "joker",
+  ];
 
-export default function HomeScreen() {
+  const slideAnim = useRef(new Animated.Value(20)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const shakeAnime = useRef(new Animated.Value(0)).current;
+  const shadowAnim = useRef(new Animated.Value(0)).current;
+
+  const [key, setKey] = useState(0);
+
+  const renderTime = ({ remainingTime } : { remainingTime: number }) => {
+    if (remainingTime === 0) {
+      return <Text style={{ fontWeight: "bold" }}>Temps écoulé...</Text>;
+    }
+
+    return (
+      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <Text style={{fontWeight: "bold"}}>Temps restant</Text>
+        <Text style={{fontWeight: "bold"}}>{remainingTime}</Text>
+        <Text style={{fontWeight: "bold"}}>secondes</Text>
+      </View>
+    );
+  };
+
+  const slideIn = () => {
+    Animated.timing(slideAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 900,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const startShake = () => {
+    Animated.sequence([
+      Animated.timing(shakeAnime, {
+        toValue: 10,
+        delay: 300,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shakeAnime, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shakeAnime, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shakeAnime, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const startShadow = () => {
+    Animated.sequence([
+      Animated.timing(shadowAnim, {
+        toValue: 100,
+        delay: 300,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shadowAnim, {
+        toValue: 20,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const randomCard = () => {
+    let randomDice = Math.floor(Math.random() * cardList.length);
+    onChangeCard(`../../assets/images/card/${cardList[randomDice]}.png`);
+    slideAnim.setValue(20);
+    fadeAnim.setValue(0);
+    shakeAnime.setValue(0);
+    slideIn();
+    fadeIn();
+    startShake();
+    startShadow();
+    setKey((prevKey) => prevKey + 1);
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View
+      style={{ ...styles.container, transform: [{ translateX: shakeAnime }] }}
+    >
+      {/* ======== COMPTE A REBOURS  ========== */}
+      <Animated.View
+        style={{
+          transform: [{ scale: slideAnim }],
+          opacity: fadeAnim,
+        }}
+      >
+        <CountdownCircleTimer
+          key={key}
+          isPlaying
+          duration={30}
+          colors={["#0cff59", "#fcde00", "#f98900", "#f92500"]}
+          colorsTime={[15, 10, 5, 0]}
+        >
+          {renderTime}
+        </CountdownCircleTimer>
+      </Animated.View>
+
+      {/* =========== TITRE DU JEU =========== */}
+      <Animated.Text
+        style={{ ...styles.title, transform: [{ translateX: shakeAnime }] }}
+      >
+        🔥Fit Fighter🔥
+      </Animated.Text>
+
+      {/* =============== CARTE ================ */}
+      <Animated.View
+        style={{
+          transform: [{ scale: slideAnim }],
+          opacity: fadeAnim,
+          shadowRadius: shadowAnim,
+          shadowOpacity: 0.85,
+        }}
+      >
+        <Animated.Image source={{ uri: card }} style={{ ...styles.image }} />
+      </Animated.View>
+
+      {/* =============== BOUTON ===================== */}
+      <Animated.View style={{ transform: [{ translateX: shakeAnime }] }}>
+        <Pressable style={styles.bouton} onPress={randomCard}>
+          <Text style={styles.text}>Tirer une carte</Text>
+        </Pressable>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 30,
+    backgroundColor: "skyblue",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 40,
+    fontFamily: "PixelifySans",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  text: {
+    fontSize: 28,
+    fontFamily: "SpaceMono",
+    fontWeight: "bold",
+  },
+  image: {
+    width: 220,
+    height: 340,
+    borderRadius: 18,
+    resizeMode: "contain",
+  },
+  bouton: {
+    borderWidth: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "yellow",
+    backgroundColor: "red",
+    width: 300,
+    height: 80,
+    borderRadius: 30,
+    marginTop: 20,
   },
 });
