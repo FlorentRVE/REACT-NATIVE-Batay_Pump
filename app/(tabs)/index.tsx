@@ -1,170 +1,85 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Pressable,
-  Animated,
-  ScrollView,
-} from "react-native";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import BoutonComponent from "@/components/BoutonComponent";
+import TimerComponent from "@/components/TimerComponent";
+import { useRef, useState } from "react";
+import { StyleSheet, View, Animated } from "react-native";
+import AnimationSpecialEffects from "../../utils/animation";
+import LifeComponent from "@/components/LifeComponent";
+import GameOverComponent from "@/components/GameOverComponent";
+import CardDisplayComponent from "@/components/CardDisplayComponent";
+import {cardList} from "../../utils/cardList";
 
-export default function demo() {
-  const [card, onChangeCard] = useState(`../../assets/images/card/ace.png`);
-  const cardList = [
-    "two",
-    "three",
-    "five",
-    "six",
-    "eight",
-    "ten",
-    "queen",
-    "king",
-    "jack",
-    "ace",
-    "joker",
-  ];
+export default function index() {
 
-  const slideAnim = useRef(new Animated.Value(20)).current;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const shakeAnime = useRef(new Animated.Value(0)).current;
-  const shadowAnim = useRef(new Animated.Value(0)).current;
+  const [card, setCard] = useState("");
+  const [life, setLife] = useState(3);
+  const [key, setKey] = useState(0); //UTILISE PAR LE TIMER
 
-  const [key, setKey] = useState(0);
+  // DEFINITION DES VALEURS DE BASE DES ANIMATIONS
+  const slideAnimation = useRef(new Animated.Value(20)).current;
+  const fadeAnimation = useRef(new Animated.Value(0)).current;
+  const shakeAnimation = useRef(new Animated.Value(0)).current;
+  const shadowAnimation = useRef(new Animated.Value(0)).current;
 
-  const renderTime = ({ remainingTime } : { remainingTime: number }) => {
-    if (remainingTime === 0) {
-      return <Text style={{ fontWeight: "bold" }}>Temps écoulé...</Text>;
-    }
+  // OBJET CONTENANT TOUTES LES FONCTIONS D'ANIMATION
+  const animationSpecialEffects = new AnimationSpecialEffects(
+    slideAnimation,
+    fadeAnimation,
+    shakeAnimation,
+    shadowAnimation
+  );
 
-    return (
-      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-        <Text style={{fontWeight: "bold"}}>Temps restant</Text>
-        <Text style={{fontWeight: "bold"}}>{remainingTime}</Text>
-        <Text style={{fontWeight: "bold"}}>secondes</Text>
-      </View>
-    );
-  };
+  // PIOCHER UNE CARTE
+  const drawCard = () => {
 
-  const slideIn = () => {
-    Animated.timing(slideAnim, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 900,
-      useNativeDriver: true,
-    }).start();
-  };
+    let randomNumber = Math.floor(Math.random() * cardList.length);
+    setCard(`../../assets/images/card/${cardList[randomNumber]}.png`);
 
-  const startShake = () => {
-    Animated.sequence([
-      Animated.timing(shakeAnime, {
-        toValue: 10,
-        delay: 300,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnime, {
-        toValue: -10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnime, {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnime, {
-        toValue: 0,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
+    slideAnimation.setValue(20);
+    fadeAnimation.setValue(0);
+    shakeAnimation.setValue(0);
+    shadowAnimation.setValue(0);
+    animationSpecialEffects.drawCardAnimation();
 
-  const startShadow = () => {
-    Animated.sequence([
-      Animated.timing(shadowAnim, {
-        toValue: 100,
-        delay: 300,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shadowAnim, {
-        toValue: 20,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  const randomCard = () => {
-    let randomDice = Math.floor(Math.random() * cardList.length);
-    onChangeCard(`../../assets/images/card/${cardList[randomDice]}.png`);
-    slideAnim.setValue(20);
-    fadeAnim.setValue(0);
-    shakeAnime.setValue(0);
-    slideIn();
-    fadeIn();
-    startShake();
-    startShadow();
-    setKey((prevKey) => prevKey + 1);
+    setKey((prevKey) => prevKey + 1); //RESET LE TIMER
   };
 
   return (
     <View
-      style={{ ...styles.container, transform: [{ translateX: shakeAnime }] }}
+      style={{ ...styles.container, transform: [{ translateX: shakeAnimation }] }}
     >
-      {/* ======== COMPTE A REBOURS  ========== */}
-      <Animated.View
-        style={{
-          transform: [{ scale: slideAnim }],
-          opacity: fadeAnim,
-        }}
-      >
-        <CountdownCircleTimer
-          key={key}
-          isPlaying
-          duration={30}
-          colors={["#0cff59", "#fcde00", "#f98900", "#f92500"]}
-          colorsTime={[15, 10, 5, 0]}
-        >
-          {renderTime}
-        </CountdownCircleTimer>
-      </Animated.View>
+      <TimerComponent
+        slideAnimation={slideAnimation}
+        fadeAnimation={fadeAnimation}
+        key={key}
+        setLife={setLife}
+        animationSpecialEffects={animationSpecialEffects}
+        life={life}
+      />
 
-      {/* =========== TITRE DU JEU =========== */}
       <Animated.Text
-        style={{ ...styles.title, transform: [{ translateX: shakeAnime }] }}
+        style={{ ...styles.title, transform: [{ translateX: shakeAnimation }] }}
       >
         🔥Fit Fighter🔥
       </Animated.Text>
 
-      {/* =============== CARTE ================ */}
-      <Animated.View
-        style={{
-          transform: [{ scale: slideAnim }],
-          opacity: fadeAnim,
-          shadowRadius: shadowAnim,
-          shadowOpacity: 0.85,
-        }}
-      >
-        <Animated.Image source={{ uri: card }} style={{ ...styles.image }} />
-      </Animated.View>
+      <CardDisplayComponent
+        slideAnimation={slideAnimation}
+        fadeAnimation={fadeAnimation}
+        shadowAnimation={shadowAnimation}
+        card={card}
+      />
 
-      {/* =============== BOUTON ===================== */}
-      <Animated.View style={{ transform: [{ translateX: shakeAnime }] }}>
-        <Pressable style={styles.bouton} onPress={randomCard}>
-          <Text style={styles.text}>Tirer une carte</Text>
-        </Pressable>
-      </Animated.View>
+      {life < 1 ? (
+        <GameOverComponent
+          setLife={setLife}
+          drawCard={drawCard}
+        />
+      ) : (
+        <View style={styles.container}>
+          <BoutonComponent shakeAnimation={shakeAnimation} drawCard={drawCard} />
+          <LifeComponent life={life} />
+        </View>
+      )}
     </View>
   );
 }
@@ -176,31 +91,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 30,
     backgroundColor: "skyblue",
+    padding: 10,
   },
   title: {
     fontSize: 40,
     fontFamily: "PixelifySans",
   },
-  text: {
-    fontSize: 28,
-    fontFamily: "SpaceMono",
-    fontWeight: "bold",
-  },
-  image: {
-    width: 220,
-    height: 340,
-    borderRadius: 18,
-    resizeMode: "contain",
-  },
-  bouton: {
-    borderWidth: 5,
+  buttonLife: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "yellow",
-    backgroundColor: "red",
-    width: 300,
-    height: 80,
-    borderRadius: 30,
-    marginTop: 20,
   },
 });
