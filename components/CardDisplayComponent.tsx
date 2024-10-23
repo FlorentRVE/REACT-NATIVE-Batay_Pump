@@ -22,7 +22,11 @@ const styles = StyleSheet.create({
   image: {
     width: 220,
     height: 340,
-    borderRadius: 18,
+    borderRadius: 10,
     resizeMode: "contain",
+    //! A enlever
+    borderColor: "white",
+    borderWidth: 5,
+    backgroundColor: "yellow",
   },
 });

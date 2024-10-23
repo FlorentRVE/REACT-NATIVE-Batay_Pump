@@ -6,7 +6,7 @@ export default function BoutonComponent({ shakeAnimation, drawCard } : {shakeAni
     <View>
       <Animated.View style={{ transform: [{ translateX: shakeAnimation }] }}>
         <Pressable style={styles.bouton} onPress={drawCard}>
-          <Text style={styles.text}>Tirer une carte</Text>
+          <Text style={styles.text}>Piocher une carte</Text>
         </Pressable>
       </Animated.View>
     </View>
@@ -15,19 +15,18 @@ export default function BoutonComponent({ shakeAnimation, drawCard } : {shakeAni
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 28,
+    fontSize: 25,
     fontFamily: "SpaceMono",
     fontWeight: "bold",
   },
   bouton: {
-    borderWidth: 5,
+    borderWidth: 3,
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "yellow",
+    borderColor: "black",
     backgroundColor: "red",
     width: 300,
-    height: 80,
-    borderRadius: 30,
-    marginTop: 20,
+    height: 50,
+    borderRadius: 10,
   },
 });

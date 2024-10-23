@@ -6,14 +6,16 @@ import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 export default function TimerComponent({
   slideAnimation,
   fadeAnimation,
-  key,
+  keyTimer,
+  isPlayingTimer,
   life,
   animationSpecialEffects,
   setLife,
 }: {
   slideAnimation: Animated.Value;
   fadeAnimation: Animated.Value;
-  key: number;
+  keyTimer: number;
+  isPlayingTimer: boolean;
   life: number;
   animationSpecialEffects: AnimationSpecialEffects;
   setLife: (life: number) => void;
@@ -34,7 +36,7 @@ export default function TimerComponent({
   };
 
   return (
-    <View>
+    <View style={{ marginTop: 25 }}>
       <Animated.View
         style={{
           transform: [{ scale: slideAnimation }],
@@ -42,11 +44,12 @@ export default function TimerComponent({
         }}
       >
         <CountdownCircleTimer
-          key={key}
-          isPlaying
-          duration={5}
+          key={keyTimer}
+          size={140}
+          isPlaying = {isPlayingTimer}
+          duration={30}
           colors={["#0cff59", "#fcde00", "#f98900", "#f92500"]}
-          colorsTime={[5, 2, 1, 0]}
+          colorsTime={[30, 15, 10, 0]}
           onComplete={() => {
             setLife(life - 1);
             animationSpecialEffects.lostLifeAnimation();

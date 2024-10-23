@@ -1,7 +1,7 @@
 import BoutonComponent from "@/components/BoutonComponent";
 import TimerComponent from "@/components/TimerComponent";
 import { useRef, useState } from "react";
-import { StyleSheet, View, Animated } from "react-native";
+import { StyleSheet, View, Animated, Dimensions } from "react-native";
 import AnimationSpecialEffects from "../../utils/animation";
 import LifeComponent from "@/components/LifeComponent";
 import GameOverComponent from "@/components/GameOverComponent";
@@ -10,13 +10,16 @@ import {cardList} from "../../utils/cardList";
 
 export default function index() {
 
-  const [card, setCard] = useState("");
+  const [card, setCard] = useState(
+    "../../assets/images/card/joker.png"
+  );
   const [life, setLife] = useState(3);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [key, setKey] = useState(0); //UTILISE PAR LE TIMER
 
   // DEFINITION DES VALEURS DE BASE DES ANIMATIONS
-  const slideAnimation = useRef(new Animated.Value(20)).current;
-  const fadeAnimation = useRef(new Animated.Value(0)).current;
+  const slideAnimation = useRef(new Animated.Value(1)).current;
+  const fadeAnimation = useRef(new Animated.Value(1)).current;
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const shadowAnimation = useRef(new Animated.Value(0)).current;
 
@@ -30,6 +33,8 @@ export default function index() {
 
   // PIOCHER UNE CARTE
   const drawCard = () => {
+
+    setIsPlaying(true);
 
     let randomNumber = Math.floor(Math.random() * cardList.length);
     setCard(`../../assets/images/card/${cardList[randomNumber]}.png`);
@@ -45,22 +50,24 @@ export default function index() {
 
   return (
     <View
-      style={{ ...styles.container, transform: [{ translateX: shakeAnimation }] }}
+      style={styles.container}
     >
       <TimerComponent
         slideAnimation={slideAnimation}
         fadeAnimation={fadeAnimation}
-        key={key}
+        keyTimer={key}
         setLife={setLife}
         animationSpecialEffects={animationSpecialEffects}
+        isPlayingTimer={isPlaying}
         life={life}
       />
 
-      <Animated.Text
-        style={{ ...styles.title, transform: [{ translateX: shakeAnimation }] }}
+      {/* <Animated.Text
+        style={{ ...styles.title }}
       >
-        🔥Fit Fighter🔥
-      </Animated.Text>
+        🔥Batay Pump🔥
+      </Animated.Text> */}
+      <LifeComponent life={life} />
 
       <CardDisplayComponent
         slideAnimation={slideAnimation}
@@ -70,36 +77,31 @@ export default function index() {
       />
 
       {life < 1 ? (
-        <GameOverComponent
-          setLife={setLife}
-          drawCard={drawCard}
-        />
+        <GameOverComponent setLife={setLife} drawCard={drawCard} />
       ) : (
-        <View style={styles.container}>
-          <BoutonComponent shakeAnimation={shakeAnimation} drawCard={drawCard} />
-          <LifeComponent life={life} />
-        </View>
+          <BoutonComponent
+            shakeAnimation={shakeAnimation}
+            drawCard={drawCard}
+          />
       )}
     </View>
   );
 }
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 30,
     backgroundColor: "skyblue",
     padding: 10,
+    gap: 10,
+    width: width,
+    height: height,
   },
-  title: {
-    fontSize: 40,
-    fontFamily: "PixelifySans",
-  },
-  buttonLife: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // title: {
+  //   fontSize: 30,
+  //   fontFamily: "PixelifySans",
+  // },
 });
