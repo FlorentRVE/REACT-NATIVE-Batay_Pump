@@ -23,20 +23,24 @@ export default function TimerComponent({
   
   const renderTime = ({ remainingTime }: { remainingTime: number }) => {
     if (remainingTime === 0) {
-      return <Text style={{ fontWeight: "bold" }}>Temps écoulé...</Text>;
+      return <Text style={{ fontWeight: "bold", color: "goldenrod" }}>Temps écoulé...</Text>;
     }
 
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ fontWeight: "bold" }}>Temps restant</Text>
-        <Text style={{ fontWeight: "bold" }}>{remainingTime}</Text>
-        <Text style={{ fontWeight: "bold" }}>secondes</Text>
+        <Text style={{ fontWeight: "bold", color: "goldenrod" }}>
+          Temps restant
+        </Text>
+        <Text style={{ fontWeight: "bold", color: "goldenrod" }}>
+          {remainingTime}
+        </Text>
+        <Text style={{ fontWeight: "bold", color: "goldenrod" }}>secondes</Text>
       </View>
     );
   };
 
   return (
-    <View style={{ marginTop: 25 }}>
+    <View>
       <Animated.View
         style={{
           transform: [{ scale: slideAnimation }],
@@ -45,11 +49,12 @@ export default function TimerComponent({
       >
         <CountdownCircleTimer
           key={keyTimer}
-          size={140}
+          size={135}
           isPlaying = {isPlayingTimer}
-          duration={30}
+          duration={60}
           colors={["#0cff59", "#fcde00", "#f98900", "#f92500"]}
-          colorsTime={[30, 15, 10, 0]}
+          // colorsTime={[5, 3, 2, 0]}
+          colorsTime={[60, 30, 15, 0]}
           onComplete={() => {
             setLife(life - 1);
             animationSpecialEffects.lostLifeAnimation();

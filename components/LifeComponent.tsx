@@ -14,7 +14,7 @@ export default function LifeComponent({life} : {life:number}) {
       data={lifeDisplay}
       contentContainerStyle={styles.listContainer}
       renderItem={({ item, index }) => (
-        <Text key={index} style={{ fontSize: 35 } }>{item}</Text>
+        <Text key={index} style={{ fontSize: 30 } }>{item}</Text>
       )}
     />
   );

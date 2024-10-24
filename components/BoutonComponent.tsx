@@ -6,7 +6,7 @@ export default function BoutonComponent({ shakeAnimation, drawCard } : {shakeAni
     <View>
       <Animated.View style={{ transform: [{ translateX: shakeAnimation }] }}>
         <Pressable style={styles.bouton} onPress={drawCard}>
-          <Text style={styles.text}>Piocher une carte</Text>
+          <Text style={styles.text}>PIOCHER UNE CARTE</Text>
         </Pressable>
       </Animated.View>
     </View>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderColor: "black",
-    backgroundColor: "red",
+    backgroundColor: "goldenrod",
     width: 300,
     height: 50,
     borderRadius: 10,

@@ -2,16 +2,16 @@ import BoutonComponent from "@/components/BoutonComponent";
 import TimerComponent from "@/components/TimerComponent";
 import { useRef, useState } from "react";
 import { StyleSheet, View, Animated, Dimensions } from "react-native";
-import AnimationSpecialEffects from "../../utils/animation";
+import AnimationSpecialEffects from "../utils/animation";
 import LifeComponent from "@/components/LifeComponent";
 import GameOverComponent from "@/components/GameOverComponent";
 import CardDisplayComponent from "@/components/CardDisplayComponent";
-import {cardList} from "../../utils/cardList";
+import {cardList} from "../utils/cardList";
 
-export default function index() {
+export default function game() {
 
   const [card, setCard] = useState(
-    "../../assets/images/card/joker.png"
+    "../../assets/images/home.jpeg"
   );
   const [life, setLife] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -52,6 +52,8 @@ export default function index() {
     <View
       style={styles.container}
     >
+      <LifeComponent life={life} />
+
       <TimerComponent
         slideAnimation={slideAnimation}
         fadeAnimation={fadeAnimation}
@@ -61,13 +63,6 @@ export default function index() {
         isPlayingTimer={isPlaying}
         life={life}
       />
-
-      {/* <Animated.Text
-        style={{ ...styles.title }}
-      >
-        🔥Batay Pump🔥
-      </Animated.Text> */}
-      <LifeComponent life={life} />
 
       <CardDisplayComponent
         slideAnimation={slideAnimation}
@@ -87,6 +82,7 @@ export default function index() {
     </View>
   );
 }
+
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
@@ -94,14 +90,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "skyblue",
+    backgroundColor: "#20282B",
     padding: 10,
     gap: 10,
     width: width,
     height: height,
   },
-  // title: {
-  //   fontSize: 30,
-  //   fontFamily: "PixelifySans",
-  // },
 });
