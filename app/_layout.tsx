@@ -25,10 +25,29 @@ export default function RootLayout() {
 
   return (
     <Stack>
+
       <Stack.Screen
         name="index"
         options={{ headerShown: false, headerLeft: () => <></> }}
       />
+
+      <Stack.Screen
+        name="rules"
+        options={{
+          headerTitle: "REGLES",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontSize: 30,
+            fontWeight: 800,
+            fontFamily: "PixelifySans",
+          },
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "goldenrod",
+        }}
+      />
+
       <Stack.Screen
         name="game"
         options={{
@@ -45,7 +64,9 @@ export default function RootLayout() {
           headerTintColor: "goldenrod",
         }}
       />
+
       <Stack.Screen name="+not-found" />
+      
     </Stack>
   );
 }

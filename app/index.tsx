@@ -4,23 +4,24 @@ import {
   Animated,
   Dimensions,
   Text,
-  Pressable,
 } from "react-native";
 import { Link } from "expo-router";
 
 export default function index() {
   return (
     <View style={styles.container}>
-      {/* <Animated.Text style={{ ...styles.title }}>🔥Batay Pump🔥</Animated.Text> */}
       <Animated.Image
         source={{ uri: "../../assets/images/home.jpeg" }}
         style={{ ...styles.image }}
       />
-      <Pressable style={styles.button}>
-        <Link href="/game">
-          <Text style={styles.text}>JOUER</Text>
-        </Link>
-      </Pressable>
+
+      <Link href="/game" style={styles.button}>
+        <Text style={styles.text}>JOUER</Text>
+      </Link>
+
+      <Link href="/rules" style={styles.button}>
+        <Text style={styles.text}>REGLES</Text>
+      </Link>
 
       <Text style={styles.credit}>RVE@copyright</Text>
     </View>
@@ -46,23 +47,21 @@ const styles = StyleSheet.create({
   },
   button: {
     borderWidth: 3,
-    alignItems: "center",
-    justifyContent: "center",
     borderColor: "black",
     backgroundColor: "goldenrod",
     width: 300,
     height: 50,
     borderRadius: 10,
+    textAlign: "center",
   },
   image: {
     width: width,
-    height: height / 2,
-    // resizeMode: "contain",
+    height: height / 1.8,
   },
-  credit : {
+  credit: {
     fontSize: 15,
     color: "goldenrod",
     position: "absolute",
-    bottom: 20
-  }
+    bottom: 20,
+  },
 });
