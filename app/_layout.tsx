@@ -24,7 +24,6 @@ export default function RootLayout() {
 
   return (
     <Stack>
-
       <Stack.Screen
         name="index"
         options={{ headerShown: false, headerLeft: () => <></> }}
@@ -48,7 +47,20 @@ export default function RootLayout() {
       <Stack.Screen
         name="game"
         options={{
-          headerTitle: "",
+          headerTitle: "SOLO",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "goldenrod",
+        }}
+      />
+
+      <Stack.Screen
+        name="gameDuel"
+        options={{
+          headerTitle: "DUEL",
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "black",
           },
@@ -57,7 +69,6 @@ export default function RootLayout() {
       />
 
       <Stack.Screen name="+not-found" />
-      
     </Stack>
   );
 }

@@ -30,7 +30,7 @@ export default function index() {
           </View>
         </Link>
 
-        <Link href="/game">
+        <Link href="/gameDuel">
           <View style={styles.button}>
             <Text style={styles.text}>Duel</Text>
           </View>

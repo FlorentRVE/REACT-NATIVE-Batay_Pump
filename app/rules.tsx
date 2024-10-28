@@ -5,7 +5,6 @@ export default function rules() {
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.content}>
-
           <View style={styles.section}>
             <Text style={styles.title}>BASE DU JEU</Text>
             <Text style={{ ...styles.text, color: "red" }}>
@@ -43,6 +42,16 @@ export default function rules() {
             </Text>
           </View>
 
+          <View style={styles.section}>
+            <Text style={styles.title}>DUEL</Text>
+            <Text style={styles.text}>
+              Deux joueurs s'affrontent en piochant des cartes tour à tour. Le
+              premier joueur à atteindre zéro point de vie perd la partie.
+            </Text>
+            <Text style={{ ...styles.text, color: "red" }}>
+              Joueur 1 : Ecran noir et joueur 2 : Ecran bleu
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </View>
