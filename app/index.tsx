@@ -26,7 +26,13 @@ export default function index() {
 
         <Link href="/game">
           <View style={styles.button}>
-            <Text style={styles.text}>Jouer</Text>
+            <Text style={styles.text}>Solo</Text>
+          </View>
+        </Link>
+
+        <Link href="/game">
+          <View style={styles.button}>
+            <Text style={styles.text}>Duel</Text>
           </View>
         </Link>
 
@@ -49,12 +55,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 30,
+    gap: 20,
     width: width,
     height: height,
   },
   text: {
-    fontSize: 30,
+    fontSize: 25,
     fontFamily: "SpaceMono",
     fontWeight: "bold",
     textTransform: "uppercase",
@@ -64,7 +70,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     backgroundColor: "goldenrod",
     width: 300,
-    height: 50,
+    height: 40,
     borderRadius: 10,
     flex: 1,
     alignItems: "center",

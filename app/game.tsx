@@ -1,7 +1,7 @@
 import BoutonComponent from "@/components/BoutonComponent";
 import TimerComponent from "@/components/TimerComponent";
 import { useRef, useState } from "react";
-import { StyleSheet, View, Animated, Dimensions } from "react-native";
+import { StyleSheet, View, Animated, Dimensions, Text } from "react-native";
 import AnimationSpecialEffects from "../utils/animation";
 import LifeComponent from "@/components/LifeComponent";
 import GameOverComponent from "@/components/GameOverComponent";
@@ -13,6 +13,7 @@ export default function game() {
   const [card, setCard] = useState("../../assets/images/get_ready.png");
   const [life, setLife] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [round, setRound] = useState(0);
   const [key, setKey] = useState(0); //UTILISE PAR LE TIMER
 
   // DEFINITION DES VALEURS DE BASE DES ANIMATIONS
@@ -42,13 +43,24 @@ export default function game() {
     shadowAnimation.setValue(0);
     animationSpecialEffects.drawCardAnimation();
 
+    setRound((prevRound) => prevRound + 1);
     setKey((prevKey) => prevKey + 1); //RESET LE TIMER
   };
 
   return (
     <LinearGradient colors={["#0E1215", "#000000"]} style={styles.background}>
       <View style={styles.container}>
-        <LifeComponent life={life} />
+        <View style={styles.roundLifeContainer}>
+          <Text style={styles.round}>Round : {round}</Text>
+
+          <View>
+            {life > 0 ? (
+              <LifeComponent life={life} />
+            ) : (
+              <Text style={{ fontSize: 18, color: "red", fontWeight: "bold" }}>Plus aucune vie</Text>
+            )}
+          </View>
+        </View>
 
         <TimerComponent
           slideAnimation={slideAnimation}
@@ -68,7 +80,11 @@ export default function game() {
         />
 
         {life < 1 ? (
-          <GameOverComponent setLife={setLife} drawCard={drawCard} />
+          <GameOverComponent
+            setLife={setLife}
+            drawCard={drawCard}
+            setround={setRound}
+          />
         ) : (
           <BoutonComponent
             shakeAnimation={shakeAnimation}
@@ -92,8 +108,18 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
   },
-
   background: {
     flex: 1,
+  },
+  roundLifeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: width,
+  },
+  round: {
+    fontWeight: "bold",
+    fontSize: 18,
+    color: "goldenrod",
   },
 });

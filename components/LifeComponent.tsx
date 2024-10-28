@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Image, Platform, Pressable, Text } from "react-native";
+import { FlatList, Platform, Text } from "react-native";
 
 export default function LifeComponent({life} : {life:number}) {
 
@@ -12,18 +12,10 @@ export default function LifeComponent({life} : {life:number}) {
       horizontal
       showsHorizontalScrollIndicator={Platform.OS === "web"}
       data={lifeDisplay}
-      contentContainerStyle={styles.listContainer}
+      // contentContainerStyle={{}}
       renderItem={({ item, index }) => (
         <Text key={index} style={{ fontSize: 30 } }>{item}</Text>
       )}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  listContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});

@@ -3,13 +3,16 @@ import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function GameOverComponent({
   setLife,
+  setround,
   drawCard
 }: {
   setLife: (life: number) => void;
+  setround: (round: number) => void;
   drawCard: () => void;
 }) {
   const resetGame = () => {
     setLife(3);
+    setround(0);
     drawCard();
   };
 
@@ -26,7 +29,7 @@ export default function GameOverComponent({
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 28,
+    fontSize: 20,
     fontFamily: "SpaceMono",
     fontWeight: "bold",
     color: "white",
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
     backgroundColor: "black",
     width: 300,
-    height: 80,
+    height: 50,
     borderRadius: 30,
     marginTop: 20,
   },
