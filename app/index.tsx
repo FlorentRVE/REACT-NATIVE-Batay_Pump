@@ -1,30 +1,44 @@
-import {
-  StyleSheet,
-  View,
-  Animated,
-  Dimensions,
-  Text,
-} from "react-native";
+import { StyleSheet, View, Animated, Dimensions, Text } from "react-native";
 import { Link } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRef } from "react";
 
 export default function index() {
+  const fadeAnimation = useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    Animated.timing(fadeAnimation, {
+      toValue: 1,
+      duration: 1200,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  fadeIn();
+
   return (
-    <View style={styles.container}>
-      <Animated.Image
-        source={{ uri: "../../assets/images/home.jpeg" }}
-        style={{ ...styles.image }}
-      />
+    <LinearGradient colors={["#0E1215", "#000000"]} style={styles.background}>
+      <View style={styles.container}>
+        <Animated.Image
+          source={{ uri: "../../assets/images/home_3.png" }}
+          style={{ ...styles.image, opacity: fadeAnimation }}
+        />
 
-      <Link href="/game" style={styles.button}>
-        <Text style={styles.text}>JOUER</Text>
-      </Link>
+        <Link href="/game">
+          <View style={styles.button}>
+            <Text style={styles.text}>Jouer</Text>
+          </View>
+        </Link>
 
-      <Link href="/rules" style={styles.button}>
-        <Text style={styles.text}>REGLES</Text>
-      </Link>
+        <Link href="/rules">
+          <View style={styles.button}>
+            <Text style={styles.text}>Règles</Text>
+          </View>
+        </Link>
 
-      <Text style={styles.credit}>RVE@copyright</Text>
-    </View>
+        <Text style={styles.credit}>RVE@copyright</Text>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -35,7 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#20282B",
     gap: 30,
     width: width,
     height: height,
@@ -44,6 +57,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "SpaceMono",
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
   button: {
     borderWidth: 3,
@@ -52,7 +66,9 @@ const styles = StyleSheet.create({
     width: 300,
     height: 50,
     borderRadius: 10,
-    textAlign: "center",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: width,
@@ -63,5 +79,8 @@ const styles = StyleSheet.create({
     color: "goldenrod",
     position: "absolute",
     bottom: 20,
+  },
+  background: {
+    flex: 1,
   },
 });

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "DemoMan",
-    "slug": "DemoMan",
+    "name": "Batay Pump",
+    "slug": "Batay",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/home.jpeg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {

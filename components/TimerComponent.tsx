@@ -53,7 +53,6 @@ export default function TimerComponent({
           isPlaying = {isPlayingTimer}
           duration={60}
           colors={["#0cff59", "#fcde00", "#f98900", "#f92500"]}
-          // colorsTime={[5, 3, 2, 0]}
           colorsTime={[60, 30, 15, 0]}
           onComplete={() => {
             setLife(life - 1);

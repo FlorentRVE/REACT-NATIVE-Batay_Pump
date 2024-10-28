@@ -6,13 +6,11 @@ import AnimationSpecialEffects from "../utils/animation";
 import LifeComponent from "@/components/LifeComponent";
 import GameOverComponent from "@/components/GameOverComponent";
 import CardDisplayComponent from "@/components/CardDisplayComponent";
-import {cardList} from "../utils/cardList";
+import { cardList } from "../utils/cardList";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function game() {
-
-  const [card, setCard] = useState(
-    "../../assets/images/home.jpeg"
-  );
+  const [card, setCard] = useState("../../assets/images/get_ready.png");
   const [life, setLife] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [key, setKey] = useState(0); //UTILISE PAR LE TIMER
@@ -33,7 +31,6 @@ export default function game() {
 
   // PIOCHER UNE CARTE
   const drawCard = () => {
-
     setIsPlaying(true);
 
     let randomNumber = Math.floor(Math.random() * cardList.length);
@@ -49,37 +46,37 @@ export default function game() {
   };
 
   return (
-    <View
-      style={styles.container}
-    >
-      <LifeComponent life={life} />
+    <LinearGradient colors={["#0E1215", "#000000"]} style={styles.background}>
+      <View style={styles.container}>
+        <LifeComponent life={life} />
 
-      <TimerComponent
-        slideAnimation={slideAnimation}
-        fadeAnimation={fadeAnimation}
-        keyTimer={key}
-        setLife={setLife}
-        animationSpecialEffects={animationSpecialEffects}
-        isPlayingTimer={isPlaying}
-        life={life}
-      />
+        <TimerComponent
+          slideAnimation={slideAnimation}
+          fadeAnimation={fadeAnimation}
+          keyTimer={key}
+          setLife={setLife}
+          animationSpecialEffects={animationSpecialEffects}
+          isPlayingTimer={isPlaying}
+          life={life}
+        />
 
-      <CardDisplayComponent
-        slideAnimation={slideAnimation}
-        fadeAnimation={fadeAnimation}
-        shadowAnimation={shadowAnimation}
-        card={card}
-      />
+        <CardDisplayComponent
+          slideAnimation={slideAnimation}
+          fadeAnimation={fadeAnimation}
+          shadowAnimation={shadowAnimation}
+          card={card}
+        />
 
-      {life < 1 ? (
-        <GameOverComponent setLife={setLife} drawCard={drawCard} />
-      ) : (
+        {life < 1 ? (
+          <GameOverComponent setLife={setLife} drawCard={drawCard} />
+        ) : (
           <BoutonComponent
             shakeAnimation={shakeAnimation}
             drawCard={drawCard}
           />
-      )}
-    </View>
+        )}
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -90,10 +87,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#20282B",
     padding: 10,
     gap: 10,
     width: width,
     height: height,
+  },
+
+  background: {
+    flex: 1,
   },
 });
