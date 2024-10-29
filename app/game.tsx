@@ -10,7 +10,7 @@ import { cardList } from "../utils/cardList";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function game() {
-  const [card, setCard] = useState("../../assets/images/get_ready.png");
+  const [card, setCard] = useState(3);
   const [life, setLife] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [round, setRound] = useState(0);
@@ -35,7 +35,7 @@ export default function game() {
     setIsPlaying(true);
 
     let randomNumber = Math.floor(Math.random() * cardList.length);
-    setCard(`../../assets/images/card/${cardList[randomNumber]}.png`);
+    setCard(randomNumber);
 
     slideAnimation.setValue(20);
     fadeAnimation.setValue(0);

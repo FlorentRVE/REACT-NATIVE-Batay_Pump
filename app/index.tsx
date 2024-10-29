@@ -1,8 +1,7 @@
-import { StyleSheet, View, Animated, Dimensions, Text } from "react-native";
+import { StyleSheet, View, Animated, Dimensions, Text, Image } from "react-native";
 import { Link } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRef } from "react";
-import { Image } from "expo-image";
 
 export default function index() {
   const fadeAnimation = useRef(new Animated.Value(0)).current;
@@ -20,10 +19,12 @@ export default function index() {
   return (
     <LinearGradient colors={["#0E1215", "#000000"]} style={styles.background}>
       <View style={styles.container}>
-        <Animated.Image
-          source={{ uri: "../../assets/images/home.png" }}
-          style={{ ...styles.image, opacity: fadeAnimation }}
-        />
+        <Animated.View style={{ opacity: fadeAnimation }}>
+          <Image
+            source={require("../assets/images/home.png")}
+            style={{ ...styles.image }}
+          />
+        </Animated.View>
 
         <Link href="/game">
           <View style={styles.button}>

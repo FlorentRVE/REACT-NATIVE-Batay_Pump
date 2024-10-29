@@ -10,7 +10,7 @@ import GameOverComponentDuel from "@/components/GameOverComponentDuel";
 import TimerComponent from "@/components/TimerComponent";
 
 export default function gameDuel() {
-  const [card, setCard] = useState("../../assets/images/get_ready.png");
+  const [card, setCard] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [round, setRound] = useState(0);
   const [key, setKey] = useState(0); //UTILISE PAR LE TIMER
@@ -39,7 +39,7 @@ export default function gameDuel() {
     setIsPlaying(true);
 
     let randomNumber = Math.floor(Math.random() * cardList.length);
-    setCard(`../../assets/images/card/${cardList[randomNumber]}.png`);
+    setCard(randomNumber);
 
     slideAnimation.setValue(20);
     fadeAnimation.setValue(0);
