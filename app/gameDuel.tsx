@@ -59,7 +59,12 @@ export default function gameDuel() {
     >
       <View style={styles.container}>
         <View style={styles.roundLifeContainer}>
-          <Text style={styles.round}>Round : {round}</Text>
+
+          {isPlayingTwo ? (
+            <Text style={styles.round}>Joueur 2</Text>
+          ) : (
+            <Text style={styles.round}>Joueur 1</Text>
+          )}
 
           {isPlayingTwo ? (
             <View>
